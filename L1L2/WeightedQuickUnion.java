@@ -16,7 +16,7 @@ public class WeightedQuickUnion {
     }
   }
 
-  void union(int p, int q) {
+  public void union(int p, int q) {
     int proot = findRoot(p);
     int qroot = findRoot(q);
     if (sz[p] > sz[q]) {
@@ -28,16 +28,16 @@ public class WeightedQuickUnion {
     }
   }
 
-  int findRoot(int p) {
+  public int findRoot(int p) {
     // id[p] == p 表示自己為根元素
     while (id[p] != p) {
-      id[p] = id[id[p]]; // 加上此行可已讓樹更平
+      id[p] = id[id[p]]; // path compression
       p = id[p];
     }
     return p;
   }
 
-  boolean isConnected(int p, int q) {
+  public boolean isConnected(int p, int q) {
     return findRoot(p) == findRoot(q);
   }
 
