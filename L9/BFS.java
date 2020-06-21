@@ -18,7 +18,7 @@ public class BFS {
     queue.add(start);
 
     while (!queue.isEmpty()) {
-      int v = queue.poll();
+      int v = queue.remove();
       for (int w : graph.adj[v]) {
         if (!visited[w]) {
           visited[w] = true;

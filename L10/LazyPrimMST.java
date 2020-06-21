@@ -1,31 +1,42 @@
 package L10;
 
-import java.util.Arrays;
 import java.util.PriorityQueue;
 
-import L1L2.WeightedQuickUnion;
+public class LazyPrimMST {
 
-public class KruskalMST {
-  // 1. sorting - ElogE
-  // 2. isCircle - E^2(dfs) / logE(WQU)
-
+  private boolean[] visited;
+  private PriorityQueue<Edge> pq;
   private PriorityQueue<Edge> mst;
 
-  public KruskalMST(WeightedGraph G) {
+  public LazyPrimMST(WeightedGraph G) {
+    visited = new boolean[G.V()];
+    pq = new PriorityQueue<Edge>();
     mst = new PriorityQueue<Edge>();
-    WeightedQuickUnion wqu = new WeightedQuickUnion(G.V());
-    Edge[] edges = G.edges();
-    Arrays.sort(edges);
 
-    for (int i = 0; i < edges.length; i++) {
-      Edge e = edges[i];
+    visit(G, 0);
+
+    while (!pq.isEmpty()) {
+      Edge e = pq.remove();
       int v = e.either();
       int w = e.other(v);
-      if (!wqu.isConnected(v, w)) {
-        wqu.union(v, w);
-        mst.add(e);
-      }
+
+      if (visited[v] && visited[w])
+        continue;
+
+      mst.add(e);
+
+      if (!visited[v])
+        visit(G, v);
+      if (!visited[w])
+        visit(G, w);
     }
+  }
+
+  private void visit(WeightedGraph G, int v) {
+    visited[v] = true;
+    for (Edge e : G.adj[v])
+      if (!visited[e.other(v)])
+        pq.add(e);
   }
 
   public void printMST() {
@@ -46,7 +57,7 @@ public class KruskalMST {
 
   public static void main(String[] args) {
     WeightedGraph wg = WeightedGraph.example();
-    KruskalMST test = new KruskalMST(wg);
+    LazyPrimMST test = new LazyPrimMST(wg);
     test.printMST();
   }
 }
