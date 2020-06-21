@@ -17,7 +17,7 @@ public class WeightedDigraph {
     return adj.length;
   }
 
-  public void addDiEdge(DiEdge e) {
+  public void addEdge(DiEdge e) {
     int v = e.from();
     adj[v].add(e);
   }

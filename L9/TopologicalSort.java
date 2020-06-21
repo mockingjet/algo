@@ -27,6 +27,10 @@ public class TopologicalSort {
     postOrder.push(v);
   }
 
+  public int order() {
+    return postOrder.pop();
+  }
+
   public void printResult() {
     System.out.print(postOrder.pop());
     while (!postOrder.empty())
